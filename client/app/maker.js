@@ -24,10 +24,12 @@ const DomoForm = (props) => {
             method="POST"
             className="domoForm"
           >
-          <label htmlFor="name">Username: </label>
+          <label htmlFor="name">Name: </label>
           <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-          <label htmlFor="age">Password: </label>
+          <label htmlFor="age">Age: </label>
           <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
+          <label htmlFor="food">Favorite food: </label>
+          <input id="domoFood" type="text" name="food" placeholder="Domo's favorite food"/>
           <input type="hidden" name="_csrf" value={props.csrf}/>
           <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
         </form>
@@ -49,6 +51,7 @@ const DomoList = (props) => {
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
                 <h3 className="domoName"> Name: {domo.name} </h3>
                 <h3 className="domoAge"> Age: {domo.age} </h3>
+                <h3 className="domoFood"> Favorite Food: {domo.favoriteFood} </h3>
             </div>
         );
     });

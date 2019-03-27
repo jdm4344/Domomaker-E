@@ -7,6 +7,7 @@ let DomoModel = {};
 // mongoose.Types.ObjectID is a function that converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
+const setFood = (favoriteFood) => _.escape(favoriteFood).trim();
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -19,6 +20,12 @@ const DomoSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     required: true,
+  },
+  favoriteFood: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setFood,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -36,7 +43,7 @@ DomoSchema.statics.findByOwner = (ownerID, callback) => {
     owner: convertId(ownerID),
   };
 
-  return DomoModel.find(search).select('name age').exec(callback);
+  return DomoModel.find(search).select('name age favoriteFood').exec(callback);
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);
