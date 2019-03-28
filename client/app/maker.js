@@ -41,7 +41,7 @@ const handleDelete = (e, csrf, domo) => {
 
     console.log(`Deleted: ${domo.name} id: ${domo._id}`);
 
-    sendAjax("POST", $`${domo.name}DeleteForm`).attr("action"), $(`${domo.name}DeleteForm`).serialize());
+    sendAjax("POST", $(`${domo.name}DeleteForm`).attr("action"), $(`${domo.name}DeleteForm`).serialize());
 
     loadDomosFromServer(csrf);
 
