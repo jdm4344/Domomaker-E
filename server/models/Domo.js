@@ -46,6 +46,17 @@ DomoSchema.statics.findByOwner = (ownerID, callback) => {
   return DomoModel.find(search).select('name age favoriteFood').exec(callback);
 };
 
+DomoSchema.statics.deleteDomo = (domoID, callback) => {
+  const search = {
+    _id: convertId(domoID),
+  };
+
+  DomoModel.deleteOne(search, (err, obj) => {
+    if(err) throw err;
+    console.dir("Domo deleted");
+  });
+};
+
 DomoModel = mongoose.model('Domo', DomoSchema);
 
 module.exports.DomoModel = DomoModel;

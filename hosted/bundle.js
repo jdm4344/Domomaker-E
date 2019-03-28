@@ -50,8 +50,18 @@ var DomoForm = function DomoForm(props) {
     );
 };
 
+var handleDelete = function handleDelete(e, csrf) {
+    e.preventDefault();
+
+    sendAjax("POST", $("#deleteForm").attr("action"), $("#deleteForm").serialize());
+
+    loadDomosFromServer();
+
+    return false;
+};
+
 var DomoList = function DomoList(props) {
-    if (props.domos.lenght === 0) {
+    if (props.domos.length === 0) {
         return React.createElement(
             "div",
             { className: "domoList" },
@@ -88,6 +98,13 @@ var DomoList = function DomoList(props) {
                 " Favorite Food: ",
                 domo.favoriteFood,
                 " "
+            ),
+            React.createElement(
+                "form",
+                { id: "deleteForm", onSubmit: handleDelete, action: "/deleteDomo", method: "POST" },
+                React.createElement("input", { type: "hidden", name: "domoID", value: domo._id }),
+                React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+                React.createElement("input", { id: "deleteDomoSubmit", type: "submit", value: "Delete Domo" })
             )
         );
     });
@@ -99,18 +116,18 @@ var DomoList = function DomoList(props) {
     );
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
+var loadDomosFromServer = function loadDomosFromServer(csrf) {
     sendAjax("GET", "/getDomos", null, function (data) {
-        ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector("#domos"));
+        ReactDOM.render(React.createElement(DomoList, { csrf: csrf, domos: data.domos }), document.querySelector("#domos"));
     });
 };
 
 var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
 
-    ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector("#domos"));
+    ReactDOM.render(React.createElement(DomoList, { csrf: csrf, domos: [] }), document.querySelector("#domos"));
 
-    loadDomosFromServer();
+    loadDomosFromServer(csrf);
 };
 
 var getToken = function getToken() {
