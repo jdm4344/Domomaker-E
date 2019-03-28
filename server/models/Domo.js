@@ -53,7 +53,6 @@ DomoSchema.statics.deleteDomo = (domoID, callback) => {
 
   DomoModel.deleteOne(search, (err) => {
     if (err) throw err;
-    console.dir('Domo deleted');
   }).exec(callback);
 };
 

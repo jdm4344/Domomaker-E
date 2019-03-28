@@ -16,6 +16,8 @@ const handleDomo = (e, csrf) => {
 };
 
 const DomoForm = (props) => {
+    // console.log(`domoForm props: ${props.csrf}`);
+
     return (
         <form id="domoForm" 
             name="domoForm"
@@ -36,14 +38,20 @@ const DomoForm = (props) => {
     );
 };
 
+// Sends a POST request to the server to delete a specific domo
 const handleDelete = (e, csrf, domo) => {
     e.preventDefault();
 
-    console.log(`Deleted: ${domo.name} id: ${domo._id}`);
+    // let parent = document.querySelector(`#${domo.name}DeleteForm`);
+    // console.log(parent);
+    // let key = parent.querySelector("input[name='_csrf']").value;
+    // console.log(key);
 
-    sendAjax("POST", $(`${domo.name}DeleteForm`).attr("action"), $(`${domo.name}DeleteForm`).serialize());
+    // console.log(`Deleted: ${domo.name} id: ${domo._id} csrf:${csrf}`);
 
-    loadDomosFromServer(csrf);
+    sendAjax("POST", $(`#${domo.name}DeleteForm`).attr("action"), $(`#${domo.name}DeleteForm`).serialize(), function() {
+        loadDomosFromServer(csrf);
+    });
 
     return false;
 };
@@ -57,7 +65,9 @@ const DomoList = (props) => {
         );
     }
 
+
     const domoNodes = props.domos.map(function(domo) {
+        // console.log(`domoList props: ${props.csrf}`);
         return(
             <div key={domo._id} className="domo">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
@@ -67,7 +77,7 @@ const DomoList = (props) => {
                 <form id={`${domo.name}DeleteForm`} onSubmit={(e) => handleDelete(e, props.csrf, domo)} action="/deleteDomo" method="POST">
                     <input type="hidden" name="domoID" value={domo._id}/>
                     <input type="hidden" name="_csrf" value={props.csrf}/>
-                    <input id="deleteDomoSubmit" type="submit" value="Delete Domo"/>
+                    <input type="submit" value="Delete Domo"/>
                 </form>
             </div>
         );
@@ -81,9 +91,8 @@ const DomoList = (props) => {
 };
 
 const loadDomosFromServer = (csrf) => {
-    console.log(`Loading domos froms server. token=${csrf}`);
+    // console.log(`Loading domos froms server. token=${csrf} caller=${caller}`);
     sendAjax("GET", "/getDomos", null, (data) => {
-        console.log(data);
         ReactDOM.render(
             <DomoList csrf={csrf} domos={data.domos} />, document.querySelector("#domos")
         );

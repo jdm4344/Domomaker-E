@@ -48,6 +48,8 @@ const deleteDomo = (req, res) => {
     return res.status(400).json({ error: 'An error occurred' });
   }
 
+  // console.dir(req.body._csrf);
+
   return Domo.DomoModel.deleteDomo(req.body.domoID, (err, docs) => {
     if (err) {
       console.log(err);
