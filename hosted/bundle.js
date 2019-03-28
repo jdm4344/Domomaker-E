@@ -1,6 +1,6 @@
 "use strict";
 
-var handleDomo = function handleDomo(e) {
+var handleDomo = function handleDomo(e, csrf) {
     e.preventDefault();
 
     $("#domoMessage").animate({ width: "hide" }, 350);
@@ -11,7 +11,7 @@ var handleDomo = function handleDomo(e) {
     }
 
     sendAjax("POST", $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-        loadDomosFromServer();
+        loadDomosFromServer(csrf);
     });
 
     return false;
@@ -22,7 +22,9 @@ var DomoForm = function DomoForm(props) {
         "form",
         { id: "domoForm",
             name: "domoForm",
-            onSubmit: handleDomo,
+            onSubmit: function onSubmit(e) {
+                return handleDomo(e, props.csrf);
+            },
             action: "/maker",
             method: "POST",
             className: "domoForm"

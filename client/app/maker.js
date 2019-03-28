@@ -1,4 +1,4 @@
-const handleDomo = (e) => {
+const handleDomo = (e, csrf) => {
     e.preventDefault();
 
     $("#domoMessage").animate({width:"hide"},350);
@@ -9,7 +9,7 @@ const handleDomo = (e) => {
     }
 
     sendAjax("POST", $("#domoForm").attr("action"), $("#domoForm").serialize(), function() {
-        loadDomosFromServer();
+        loadDomosFromServer(csrf);
     });
 
     return false;
@@ -19,7 +19,7 @@ const DomoForm = (props) => {
     return (
         <form id="domoForm" 
             name="domoForm"
-            onSubmit={handleDomo}
+            onSubmit={(e) => handleDomo(e, props.csrf)}
             action="/maker"
             method="POST"
             className="domoForm"
