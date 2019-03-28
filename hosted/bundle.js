@@ -52,8 +52,10 @@ var DomoForm = function DomoForm(props) {
     );
 };
 
-var handleDelete = function handleDelete(e, csrf) {
+var handleDelete = function handleDelete(e, csrf, name) {
     e.preventDefault();
+
+    console.log("Deleted: " + name);
 
     sendAjax("POST", $("#deleteForm").attr("action"), $("#deleteForm").serialize());
 
@@ -104,7 +106,7 @@ var DomoList = function DomoList(props) {
             React.createElement(
                 "form",
                 { id: "deleteForm", onSubmit: function onSubmit(e) {
-                        return handleDelete(e, props.csrf);
+                        return handleDelete(e, props.csrf, domo.name);
                     }, action: "/deleteDomo", method: "POST" },
                 React.createElement("input", { type: "hidden", name: "domoID", value: domo._id }),
                 React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),

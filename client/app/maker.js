@@ -36,8 +36,10 @@ const DomoForm = (props) => {
     );
 };
 
-const handleDelete = (e, csrf) => {
+const handleDelete = (e, csrf, name) => {
     e.preventDefault();
+
+    console.log(`Deleted: ${name}`);
 
     sendAjax("POST", $("#deleteForm").attr("action"), $("#deleteForm").serialize());
 
@@ -62,7 +64,7 @@ const DomoList = (props) => {
                 <h3 className="domoName"> Name: {domo.name} </h3>
                 <h3 className="domoAge"> Age: {domo.age} </h3>
                 <h3 className="domoFood"> Favorite Food: {domo.favoriteFood} </h3>
-                <form id="deleteForm" onSubmit={(e) => handleDelete(e, props.csrf)} action="/deleteDomo" method="POST">
+                <form id="deleteForm" onSubmit={(e) => handleDelete(e, props.csrf, domo.name)} action="/deleteDomo" method="POST">
                     <input type="hidden" name="domoID" value={domo._id}/>
                     <input type="hidden" name="_csrf" value={props.csrf}/>
                     <input id="deleteDomoSubmit" type="submit" value="Delete Domo"/>
