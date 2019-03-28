@@ -81,7 +81,7 @@ const DomoList = (props) => {
 };
 
 const loadDomosFromServer = (csrf) => {
-    console.log("Loading domos froms server");
+    console.log(`Loading domos froms server. token=${csrf}`);
     sendAjax("GET", "/getDomos", null, (data) => {
         console.log(data);
         ReactDOM.render(

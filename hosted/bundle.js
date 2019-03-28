@@ -123,7 +123,7 @@ var DomoList = function DomoList(props) {
 };
 
 var loadDomosFromServer = function loadDomosFromServer(csrf) {
-    console.log("Loading domos froms server");
+    console.log("Loading domos froms server. token=" + csrf);
     sendAjax("GET", "/getDomos", null, function (data) {
         console.log(data);
         ReactDOM.render(React.createElement(DomoList, { csrf: csrf, domos: data.domos }), document.querySelector("#domos"));
